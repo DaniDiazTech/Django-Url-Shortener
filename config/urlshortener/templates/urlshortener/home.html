@@ -21,12 +21,19 @@
       </form>
     </div>
   </div>
+  {% if errors %}
+  <div class="alert alert-danger mt-4" role="alert">
+    <p>{{errors}}</p>
+  </div>
+  {% endif %}
 
   {% if new_url %}
 
-  <div class="mx-auto">
-    <h2>Your shortened Url</h2>
-    <p>You can copy the </p>
+  <div class="mx-auto text-center mt-5">
+    <h2 class="text-danger">Your shortened Url</h2>
+    <p>You can copy the Link below and share it with your friends</p>
+    <p class="">{{new_url}}</p>
+    <p><span class="text-danger">Previous URL:</span> {{long_url}}</p>
   </div>
   {% endif %}
 </div>

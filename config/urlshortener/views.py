@@ -46,6 +46,10 @@ def home_view(request):
              
             return render(request, template, context)
 
+        context['errors'] = used_form.errors
+
+        return render(request, template, context)
+
 def redirect_url_view(request, shortened_part):
 
     try:
