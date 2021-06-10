@@ -21,11 +21,25 @@
     />
   </head>
   <body>
-   
-    {% block body %} 
-   
-   
-    
+    <div class="container-fluid">
+    <div class="row float-end">
+      <div class="col-sm-2 float-end">
+      {% block sidebar %}
+        <ul class="sidebar-nav float-end">
+         {% if user.is_authenticated %}
+           <li>User: {{ user.get_username }}</li>
+           <li><a href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>
+         {% else %}
+           <li><a href="{% url 'login'%}?next={{request.path}}">Login</a></li>
+         {% endif %}
+        </ul>
+     {% endblock %}
+      </div>
+    </div>
+  </div>
+
+    {% block body %}
+
     {% endblock body %}
     
     <script

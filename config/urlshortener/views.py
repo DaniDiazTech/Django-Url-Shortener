@@ -15,8 +15,8 @@ from .forms import ShortenerForm
 
 # Create your views here.
 
+
 def home_view(request):
-    
     template = 'urlshortener/home.html'
 
     
@@ -25,29 +25,37 @@ def home_view(request):
     # Empty form
     context['form'] = ShortenerForm()
 
+    user_not_authenticated_message = 'User Must Be Authenticated'
+
     if request.method == 'GET':
+        if not request.user.is_authenticated:
+            context['errors'] = user_not_authenticated_message
+
         return render(request, template, context)
 
     elif request.method == 'POST':
+        if request.user.is_authenticated:
+            used_form = ShortenerForm(request.POST)
 
-        used_form = ShortenerForm(request.POST)
+            if used_form.is_valid():
 
-        if used_form.is_valid():
-            
-            shortened_object = used_form.save()
+                shortened_object = used_form.save()
 
-            new_url = request.build_absolute_uri('/') + shortened_object.short_url
-            
-            long_url = shortened_object.long_url 
-             
-            context['new_url']  = new_url
-            context['long_url'] = long_url
-             
-            return render(request, template, context)
+                new_url = request.build_absolute_uri('/') + shortened_object.short_url
 
-        context['errors'] = used_form.errors
+                long_url = shortened_object.long_url
+
+                context['new_url']  = new_url
+                context['long_url'] = long_url
+
+                return render(request, template, context)
+
+            context['errors'] = used_form.errors
+        else:
+            context['errors'] = user_not_authenticated_message
 
         return render(request, template, context)
+
 
 def redirect_url_view(request, shortened_part):
 
