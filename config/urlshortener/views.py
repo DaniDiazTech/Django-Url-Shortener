@@ -19,7 +19,6 @@ def home_view(request):
     
     template = 'urlshortener/home.html'
 
-    # template = 'urlshortener/success.html'
     
     context = {}
 

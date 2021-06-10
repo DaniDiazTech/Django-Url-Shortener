@@ -4,8 +4,6 @@ Url shortener model
 
 from django.db import models
 
-from django.urls import reverse_lazy
-
 from .utils import create_shortened_url
 # Create your models here.
 
@@ -46,6 +44,3 @@ class Shortener(models.Model):
             self.short_url = create_shortened_url(self)
 
         super().save(*args, **kwargs)
-
-    def get_absolute_url(self):
-        return reverse_lazy("shortener:redirect", kwargs={"short_url": self.short_url})
